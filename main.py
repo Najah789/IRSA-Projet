@@ -9,8 +9,10 @@ from types.base_station import BaseStation
 from types.machine import Machine
 from types.packet import Packet
 from types.slot import Slot
-from types.trame import Trame
+from types.frame import Frame
 
 
 if __name__ == "__main__":
+    # Simulation code ..
+
     pass
