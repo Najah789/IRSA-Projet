@@ -8,3 +8,6 @@
 - implémentation de l’algorithme de Self Interference Cancellation
 - test de l’algorithme d’apprentissage UCB1
 
+## Technologies utilisées
+ - Python
+ - Visual studio code 
