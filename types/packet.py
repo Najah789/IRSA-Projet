@@ -3,4 +3,11 @@ class Packet(object):
     """
     Packet
     """
-    pass
+    def __init__(self) -> None:
+        super().__init__()
+        self.value = None
+
+    
+
+    def __str__(self) -> str:
+        return self.value
