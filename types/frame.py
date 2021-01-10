@@ -1,7 +1,7 @@
 
-class Frame(object):
+class Trame(object):
     """
-    Frame
+    Trame
     """
     pass
 
