@@ -1,5 +1,5 @@
 """
-    La définition de constantes
+    Constant definitions
 """
 
 MAX_NUM_OF_SLOTS = 10
