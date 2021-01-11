@@ -1,5 +1,3 @@
-from types.packet import Packet
-
 class Slot(object):
     """
     Slot
@@ -8,7 +6,7 @@ class Slot(object):
     def __init__(self) -> None:
         super().__init__()
         self.index = Slot.SLOT_NUMBER
-        self.packet = None
+        self.packets = list()   # list of packets
         self.chosen = False
 
         Slot.SLOT_NUMBER += 1
@@ -17,4 +15,3 @@ class Slot(object):
 
     def __str__(self) -> str:
         return f"Slot {self.index})\n\tPacket: {self.packet}"
-    

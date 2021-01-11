@@ -9,7 +9,7 @@ from types.base_station import BaseStation
 from types.machine import Machine
 from types.packet import Packet
 from types.slot import Slot
-from types.frame import Frame
+from types.trame import Trame # this represends the frame class
 
 
 if __name__ == "__main__":
