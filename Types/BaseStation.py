@@ -11,6 +11,6 @@ class BaseStation(object):
     """
     def __init__(self) -> None:
         super().__init__()
-        self.ack = Ack(None)
+        self.ack = None
 
     ## To be continued..

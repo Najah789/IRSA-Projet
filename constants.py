@@ -4,23 +4,30 @@
 
 MAX_NUM_OF_SLOTS = 10
 
-# k (number of repetitions)
+## Inputs
+    # lambda (input)
+    # k (number of repetitions) (input)
 
-# packet
-    # "string"
+## Variables
+    # buffer of packets sent
+    # send a packet every tick > tick calculated using "loi de Poisson"
 
-# machines
-    # index
-    # paquets (list of packet)
-
-# slot
-    # index
+## Classes
     # packet
-    # chosen (bool)
+        # "character"
 
-# base_station
-    # ack (0.9, 0.4, 0.1)
+    # machines
+        # index
+        # paquets (list of packet)
 
-# frame 'trame'
-    # slots (list of slot)
-    # collisions (list of boolean)
+    # slot
+        # index
+        # packet
+        # chosen (bool)
+
+    # base_station
+        # ack (0.9, 0.4, 0.1)
+
+    # frame 'trame'
+        # slots (list of slot)
+        # collisions (list of boolean)

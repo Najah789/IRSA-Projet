@@ -5,14 +5,13 @@
     Year:       2021 / 2022
 """
 
-from types.base_station import BaseStation
-from types.machine import Machine
-from types.packet import Packet
-from types.slot import Slot
-from types.trame import Trame # this represends the frame class
+from Types import BaseStation
+from Types import Machine
+from Types import Packet
+from Types import Slot
+from Types import Trame
 
 
 if __name__ == "__main__":
-    # Simulation code ..
-
+    ## Simulation..
     pass
