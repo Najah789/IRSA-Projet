@@ -1,7 +1,7 @@
 # IRSA-Projet
 
 
-# TERMINER
+## TERMINER
 - Simulation de l'envoi de paquets avec la loi uniforme
 - Simulation de l'envoi de paquets avec la loi de Poisson
 
