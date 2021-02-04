@@ -9,6 +9,9 @@
 - Détection de collision
 
 ## RESTE A FAIRE
+- Initiation aléatoire de (1 - 10)
+- Calcule du gain de l'initiation aléatoire
+
 - Implémentation de l’algorithme de Self Interference Cancellation
 - Test de l’algorithme d’apprentissage UCB1
 
