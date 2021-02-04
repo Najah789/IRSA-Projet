@@ -1,12 +1,16 @@
 # IRSA-Projet
 
-## En cours/Fait 
 
+# TERMINER
+- Simulation de l'envoi de paquets avec la loi uniforme
+- Simulation de l'envoi de paquets avec la loi de Poisson
 
-## TO-DO
-- simulation de l’envoi de paquets avec la loi uniforme
-- implémentation de l’algorithme de Self Interference Cancellation
-- test de l’algorithme d’apprentissage UCB1
+## EN COURS
+- Détection de collision
+
+## RESTE A FAIRE
+- Implémentation de l’algorithme de Self Interference Cancellation
+- Test de l’algorithme d’apprentissage UCB1
 
 ## Technologies utilisées
  - Python
