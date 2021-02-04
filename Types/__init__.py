@@ -71,10 +71,17 @@ class BaseStation(object):
     Base Station class
     """
     def __init__(self):
-        super().__init__()
+        self.frames_poisson = []
+        self.frames_random = []
+        self.__broadcast_frame = None
 
-    ## TODO
-
+    def detect_collisions(self, is_poisson:bool=False):
+        # TODO: COLLISION DETECTION GOES HERE
+        # 1. detect if there are any collisions in between frames ~ slots
+        # 2. Merge the slots of the all frames into  the broadcast_frame
+        # 3. Reward equipment if any (TODO: implementation of rewarding system)
+        # 4. Calculate packet loss
+        pass
 
 class Equipment(object):
     """

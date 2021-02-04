@@ -77,15 +77,15 @@ if __name__ == "__main__":
     print(equipments[0])
 
     # Create a list of frames
-    frames_poisson = [Frame(index=i) for i in range(equipments_count)]
-    frames_random = [Frame(index=i) for i in range(equipments_count)]
+    bs.frames_poisson = [Frame(index=i) for i in range(equipments_count)]
+    bs.frames_random = [Frame(index=i) for i in range(equipments_count)]
 
     for i, e in enumerate(equipments):
-        e.send_packets(frames_poisson[i], True)
-        e.send_packets(frames_random[i], False)
+        e.send_packets(bs.frames_poisson[i], True)
+        e.send_packets(bs.frames_random[i], False)
     
-    print(frames_poisson[0])
-    print(frames_random[0])
+    print(bs.frames_poisson[0])
+    print(bs.frames_random[0])
 
     # TODO Collision detection
     # TODO Implementation of UCB1 using MAB
