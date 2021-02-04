@@ -87,6 +87,10 @@ if __name__ == "__main__":
     print(frames_poisson[0])
     print(frames_random[0])
 
+    # TODO Collision detection
+    # TODO Implementation of UCB1 using MAB
+    # TODO Drawing plots of performance
+
     ## GENERAL INFORMATIONS
     # the packets arrives following Poisson using parameter LAMBDA
     # the equipment chooses randomly k SLOTs from the 10 SLOTs
@@ -114,11 +118,4 @@ if __name__ == "__main__":
         |------------|-----------------------------------------------------------|
         |BROADCAST   |--C--|--X--|--X--|--X--|--C--|-----|--X--|--X--|--C--|--X--| <- Frame of BS ?
         |------------|-----------------------------------------------------------|
-
-
-        D'aprés ceci, je sais pas que ce représente les packets dans le sujet? 
-            Est ce que ils sont les trames dans la vidéo? 
-                ou 
-            Ils sont des "data" dans les trames dans la vidéo?
-        
     """
