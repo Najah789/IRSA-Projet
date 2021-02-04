@@ -17,9 +17,9 @@ def get_distrubtion_times(lmbd:float):
     times = []
     
     old_t = 0
-    for i in range(packets_count):
+    for _ in range(packets_count):
         r = random.uniform(0,1)
-        t = round(-math.log(r) / lmbd)
+        t = -math.log(r) / lmbd
         times.append(old_t + t)
         old_t += t
 
@@ -52,7 +52,7 @@ if __name__ == "__main__":
     
     # Input for lambda value
     lmbd = -1
-    while lmbd < 0 or lmbd > 2:
+    while lmbd <= 0 or lmbd > 2:
         try:
             lmbd = input("Enter the lambda value (default = 0.5): ")
             if not lmbd:
@@ -60,7 +60,7 @@ if __name__ == "__main__":
             else:
                 lmbd = float(lmbd)
         except ValueError:
-            print("Error: must be a float! (0 < lambda < 2)")
+            print("Error: must be a float! (0 < lambda <= 2)")
         if lmbd < 0 or lmbd > 2:
             print("Warning: must be a number between 0 and 2")
 
@@ -71,18 +71,21 @@ if __name__ == "__main__":
     equipments = []
     for _ in range(equipments_count):
         e = Equipment(packets_count)
-        e.distribution_times = get_distrubtion_times(lmbd)
+        e.set_distribution(get_distrubtion_times(lmbd))
         equipments.append(e)
     
     print(equipments[0])
 
     # Create a list of frames
-    frames = [Frame() for _ in range(equipments_count)]
+    frames_poisson = [Frame(index=i) for i in range(equipments_count)]
+    frames_random = [Frame(index=i) for i in range(equipments_count)]
 
     for i, e in enumerate(equipments):
-        e.send_packets(frames[i])
+        e.send_packets(frames_poisson[i], True)
+        e.send_packets(frames_random[i], False)
     
-    print(frames[0])
+    print(frames_poisson[0])
+    print(frames_random[0])
 
     ## GENERAL INFORMATIONS
     # the packets arrives following Poisson using parameter LAMBDA
@@ -95,7 +98,7 @@ if __name__ == "__main__":
     # 2) a collision is when two equipments or more sends their packet to the same SLOT
     # 3) if a packet didn't collide with another packet
     # BS eliminates this copie from frame
-    # T
+    # ...
 
     """ EXAMPLE
         D'aprés les videos en ligne (https://youtu.be/RN4XKqTEjDA)

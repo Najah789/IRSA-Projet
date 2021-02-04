@@ -1,6 +1,7 @@
 # This class is a python package
 
-import random, string
+import random, string, math
+
 from enum import Enum
 
 MAX_NUM_OF_SLOTS = 10
@@ -32,22 +33,30 @@ class Frame(object):
     """
     Frame class (c'est la Trame en français)
     """
-    COUNT = 0 # static number defining the total number of initiated machines 
+    COUNT = 0 # static number defining the total number of frames 
     
-    def __init__(self):
-        self.index = Frame.COUNT
+    def __init__(self, index=None):
+        if index == None:
+            self.index = Frame.COUNT
+        else:
+            self.index = index
+
         # create a list of empty slots
         self.slots = [[] for _ in range(MAX_NUM_OF_SLOTS)]
 
         Frame.COUNT += 1
     
-    def receive_packet(self, packet:Packet):
+    def receive_packet(self, packet:Packet, slot_id:int=-1):
         """
         This functions assings a reveived packet to a slot.
-        The slot will be chosen randomly.
         """
-        index = random.randint(0, 9)
-        self.slots[index].append(packet)
+        if slot_id < 0:
+            # choose randomly
+            index = random.randint(0, 9)
+            self.slots[index].append(packet)
+        else:
+            # assign directly
+            self.slots[slot_id].append(packet)
 
     def __repr__(self) -> str:
         r = f'Frame {self.index} | \t'
@@ -59,11 +68,10 @@ class Frame(object):
 
 class BaseStation(object):
     """
-    Base Station
+    Base Station class
     """
-    def __init__(self) -> None:
+    def __init__(self):
         super().__init__()
-
 
     ## TODO
 
@@ -74,26 +82,44 @@ class Equipment(object):
     """
     COUNT = 0 # static number defining the total number of initiated machines 
     
-    def __init__(self, packets_count=None, distribution_times=None):
+    def __init__(self, packets_count=None, dist:list=None):
         self.index = Equipment.COUNT
 
-        self.distribution_times = distribution_times
+        if dist:
+            self.distribution_times:list = dist
+            self.__normalize_dist()
 
         # Create a list of packets
         self.packets = [Packet() for _ in range(packets_count)]
 
         Equipment.COUNT += 1
 
-    def send_packets(self, frame:Frame):
-        for packet in self.packets:
-            self.__send_packet(packet, frame)
+    def set_distribution(self, dist:list):
+        self.distribution_times = dist
+        self.__normalize_dist()
 
-    def __send_packet(self, packet:Packet, frame:Frame):
+    def send_packets(self, frame:Frame, is_poisson:bool=False):
+        for i, packet in enumerate(self.packets):
+            if not is_poisson:
+                # send packet to a random slot
+                self.__send_packet(packet, frame)
+            else:
+                # send packet to the slot indexed by 't' (POISSON)
+                t = self.distribution_times[i]
+                self.__send_packet(packet, frame, t)
+
+    def __send_packet(self, packet:Packet, frame:Frame, slot_id:int=-1):
         # we choose the number of copies (k)
         k = random.randint(1, 3)
         for _ in range(k):
-            frame.receive_packet(packet)
+            frame.receive_packet(packet, slot_id)
         
+    def __normalize_dist(self):
+        min_v = min(self.distribution_times)
+        max_v = max(self.distribution_times)
+
+        for i, v in enumerate(self.distribution_times):
+            self.distribution_times[i] =  math.floor((MAX_NUM_OF_SLOTS-1) * ((v - min_v)/(max_v - min_v)))
 
     def __repr__(self) -> str:
         return f"Packets\t>\tDitribution Times\n{str(self.packets)}\t>\t{str(self.distribution_times)}\n"
