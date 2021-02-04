@@ -9,7 +9,7 @@
 - Détection de collision
 
 ## RESTE A FAIRE
-- Initiation aléatoire de (1 - 10)
+- Initiation aléatoire de (0 - 9)
 - Calcule du gain de l'initiation aléatoire
 
 - Implémentation de l’algorithme de Self Interference Cancellation
