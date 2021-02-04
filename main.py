@@ -50,7 +50,7 @@ if __name__ == "__main__":
         except ValueError:
             print("Error: must be an integer! (> 0)")
     
-    # Input for equipment count
+    # Input for lambda value
     lmbd = -1
     while lmbd < 0 or lmbd > 2:
         try:
