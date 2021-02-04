@@ -117,7 +117,7 @@ class Equipment(object):
 
     def __send_packet(self, packet:Packet, frame:Frame, slot_id:int=-1):
         # we choose the number of copies (k)
-        k = random.randint(1, 3)
+        k = random.randint(2, 4)
         for _ in range(k):
             frame.receive_packet(packet, slot_id)
         
