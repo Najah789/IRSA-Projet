@@ -180,14 +180,14 @@ class Equipment(object):
 #*******************************************************************************
     def __send_packet_rand_dist(self, frame:Frame):
         # we test for all the possible copies
-        slot_id = random.randint(1, 11)
+        slot_id = random.randint(0, 9)
         for packet in enumerate(self.packets):
             # send packet to the slot indexed by 'slot_id'
             self.__send_packet_rand(packet, frame, slot_id)
 
     def __send_packet_rand(self, packet:Packet, frame:Frame, slot_id):
         # we choose the number of copies (k)
-        k = random.randint(1, 11)
+        k = random.randint(1, slot_id)
         for _ in range(k):
             frame.receive_packet(packet, slot_id)
 
