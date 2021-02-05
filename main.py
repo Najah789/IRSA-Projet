@@ -7,7 +7,6 @@
 
 from Types import BaseStation
 from Types import Equipment
-from Types import Packet
 from Types import Frame
 
 import random
@@ -67,7 +66,7 @@ if __name__ == "__main__":
             print("Warning: must be a number between 0 and 2")
     
     # Create the Base Station
-    bs = BaseStation(packets_count)
+    bs = BaseStation(packets_count * equipments_count)
 
     # Simulation run for 100 simulation frame
     for _ in range(100):
@@ -91,7 +90,7 @@ if __name__ == "__main__":
 
         bs.clear()
 
-        input()
+        time.sleep(0.75)
 
     # TODO Implementation of UCB1 using MAB
     # TODO Drawing plots of performance

@@ -4,7 +4,7 @@ import random, string, math
 
 from enum import Enum
 
-MAX_NUM_OF_SLOTS = 10
+MAX_NUM_OF_SLOTS = 100
 
 class Ack(Enum):
     RECEIVED = 0.9
@@ -145,8 +145,6 @@ class BaseStation(object):
 
     def print_ratios(self):
         packets_received = 0
-        print(self.frames_poisson)
-        print(self.__broadcast_frame.slots)
         for slot in self.__broadcast_frame.slots:
             temp = list(dict.fromkeys(slot))
             packets_received += len(temp)
