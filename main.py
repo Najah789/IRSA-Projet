@@ -85,17 +85,14 @@ if __name__ == "__main__":
             e.send_packets(bs.frames_poisson[i], True)
             e.send_packets(bs.frames_random[i], False)
         
-        x = bs.detect_collisions(True)
+        # Detection de collisions
+        collision_table = bs.detect_collisions(True)
+
         bs.print_ratios()
 
         bs.clear()
-
         time.sleep(0.75)
 
-    print(bs.frames_poisson[0])
-    print(bs.frames_random[0])
-
-    # TODO Collision detection
     # TODO Implementation of UCB1 using MAB
     # TODO Drawing plots of performance
 

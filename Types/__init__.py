@@ -8,8 +8,8 @@ MAX_NUM_OF_SLOTS = 100
 
 class Ack(Enum):
     RECEIVED = 0.9
-    NOT_SINGLE = 0.4
-    NOT_RECEIVED = 0.1
+    MULTIPLE = 0.4
+    COLLISION = 0.1
 
 
 class Packet(object):
@@ -87,7 +87,7 @@ class BaseStation(object):
             of the occured collisions
         """
         # detect if there are any collisions in between frames ~ slots
-        collision_table = [False for _ in range(MAX_NUM_OF_SLOTS)]
+        collision_table = [Ack.COLLISION for _ in range(MAX_NUM_OF_SLOTS)]
         frames = self.frames_poisson.copy()
         if not is_poisson:
             frames = self.frames_random.copy()
@@ -100,7 +100,7 @@ class BaseStation(object):
             collision_table[i] = ret
 
             # if there is not a collision
-            if not ret:
+            if ret != Ack.COLLISION:
                 # we remove all packets of the slot from the whole frame
                 self.__remove_packets_from_frame(slot, frame)
                 # add the slot to the the broadcast frame
@@ -117,20 +117,23 @@ class BaseStation(object):
         """
         slot = None
         frame = None
-        ret = True
+        ret = Ack.COLLISION
         count = 0
         for f in frames:
             slots = f.slots 
             if len(slots[index]) >= 1:
                 slot = slots[index]
                 frame = f
-                ret = False
+                ret = Ack.RECEIVED
                 count += 1
             if count > 1:
                 slot = None
                 frame = None
-                ret = True
+                ret = Ack.COLLISION
                 break
+
+        if slot != None and len(slot) > 1:
+            ret = Ack.MULTIPLE
 
         return (frame, slot, ret)
 
