@@ -7,7 +7,6 @@
 
 from Types import BaseStation
 from Types import Equipment
-from Types import Packet
 from Types import Frame
 
 import random
@@ -66,6 +65,7 @@ if __name__ == "__main__":
             print("Warning: must be a number between 0 and 2")
 
     # Create the Base Station
+<<<<<<< HEAD
     bs = BaseStation()
     
     # Create a list of equipments
@@ -85,6 +85,33 @@ if __name__ == "__main__":
     for i, e in enumerate(equipments):
         e.send_packets(bs.frames_poisson[i], True)
         e.send_packets(bs.frames_random[i], False)
+=======
+    bs = BaseStation(packets_count * equipments_count)
+
+    # Simulation run for 100 simulation frame
+    for _ in range(100):
+        # Create a list of equipments
+        equipments = []
+        for _ in range(equipments_count):
+            e = Equipment(packets_count)
+            e.set_distribution(get_distrubtion_times(lmbd))
+            equipments.append(e)
+        
+        # Create a list of frames
+        bs.frames_poisson = [Frame(index=i) for i in range(equipments_count)]
+        bs.frames_random = [Frame(index=i) for i in range(equipments_count)]
+
+        for i, e in enumerate(equipments):
+            e.send_packets(bs.frames_poisson[i], True)
+            e.send_packets(bs.frames_random[i], False)
+        
+        x = bs.detect_collisions(True)
+        bs.print_ratios()
+
+        bs.clear()
+
+        time.sleep(0.75)
+>>>>>>> d1f0ad144285bb08179d1b7107642754c13433fb
 
     print(bs.frames_poisson[0])
     print(bs.frames_random[0])
