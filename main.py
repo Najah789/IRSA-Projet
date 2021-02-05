@@ -39,11 +39,14 @@ def UCB1(equipments:list, Xj:int, Nj:int, N:int):
 =======
 def UCB1(equipments:list):
     overall_number_tests = 1
+    ucb_previous = 0
     for _ in range(TESTS_COUNT):
         for eq in equipments:
             eq.tests_count += 1
             x = sum(eq.gain_tab) / len(eq.gain_tab)
             ucb = x + math.sqrt((2*math.log(overall_number_tests)) / eq.tests_count)
+            ucb = max(ucb, ucb_previous)
+            ucb_previous = ucb
             overall_number_tests += 1
 >>>>>>> f5d185e53535b497dbaade005bd76c39983f6dae
 
