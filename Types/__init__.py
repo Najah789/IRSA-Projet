@@ -70,18 +70,95 @@ class BaseStation(object):
     """
     Base Station class
     """
-    def __init__(self):
+    def __init__(self, total_packets):
         self.frames_poisson = []
         self.frames_random = []
-        self.__broadcast_frame = None
+        self.__broadcast_frame = Frame(-1)
 
-    def detect_collisions(self, is_poisson:bool=False):
-        # TODO: COLLISION DETECTION GOES HERE
-        # 1. detect if there are any collisions in between frames ~ slots
-        # 2. Merge the slots of the all frames into  the broadcast_frame
-        # 3. Reward equipment if any (TODO: implementation of rewarding system)
-        # 4. Calculate packet loss
-        pass
+        self.__total_packets = total_packets
+
+    @property
+    def bf(self):
+        return self.__broadcast_frame
+
+    def detect_collisions(self, is_poisson:bool=False) -> list:
+        """
+            This function detects collisions and returns a table of boolean
+            of the occured collisions
+        """
+        # detect if there are any collisions in between frames ~ slots
+        collision_table = [False for _ in range(MAX_NUM_OF_SLOTS)]
+        frames = self.frames_poisson.copy()
+        if not is_poisson:
+            frames = self.frames_random.copy()
+        
+        for i in range(MAX_NUM_OF_SLOTS):
+            # check for collision and return slot
+            (frame, slot, ret) = self.__check_for_collision(frames, i)
+
+            # update collision table
+            collision_table[i] = ret
+
+            # if there is not a collision
+            if not ret:
+                # we remove all packets of the slot from the whole frame
+                self.__remove_packets_from_frame(slot, frame)
+                # add the slot to the the broadcast frame
+                self.__broadcast_frame.slots[i] = slot
+            else:
+                # add an empty slot
+                self.__broadcast_frame.slots[i] = []
+
+        return collision_table
+
+    def __check_for_collision(self, frames:list, index:int) -> tuple:
+        """
+            This function returns checks and return a tuple frame, slot and ret
+        """
+        slot = None
+        frame = None
+        ret = True
+        count = 0
+        for f in frames:
+            slots = f.slots 
+            if len(slots[index]) >= 1:
+                slot = slots[index]
+                frame = f
+                ret = False
+                count += 1
+            if count > 1:
+                slot = None
+                frame = None
+                ret = True
+                break
+
+        return (frame, slot, ret)
+
+    def __remove_packets_from_frame(self, slot:list, frame:Frame):
+        """
+            This function removes given packets from a frame
+        """
+        for s in frame.slots:
+            for packet in slot:
+                if packet in s:
+                    s.remove(packet)
+
+    def print_ratios(self):
+        packets_received = 0
+        print(self.frames_poisson)
+        print(self.__broadcast_frame.slots)
+        for slot in self.__broadcast_frame.slots:
+            temp = list(dict.fromkeys(slot))
+            packets_received += len(temp)
+
+        packets_not_received = self.__total_packets - packets_received
+
+        packet_loss = packets_not_received / self.__total_packets
+        print(f"packet loss: {packet_loss*100} %")
+    
+    def clear(self):
+        self.__broadcast_frame = Frame(-1)
+
 
 class Equipment(object):
     """

@@ -12,6 +12,7 @@ from Types import Frame
 
 import random
 import math
+import time
 
 def get_distrubtion_times(lmbd:float):
     times = []
@@ -20,17 +21,16 @@ def get_distrubtion_times(lmbd:float):
     for _ in range(packets_count):
         r = random.uniform(0,1)
         t = -math.log(r) / lmbd
+        
         times.append(old_t + t)
         old_t += t
-
     return times
 
 if __name__ == "__main__":
-    random.seed()
 
     # Input for equipment count
     equipments_count = -1
-    while equipments_count < 10 or equipments_count > 20:
+    while equipments_count < 0 or equipments_count > 20:
         try:
             equipments_count = input("Enter how many equipements are there (default = 10): ")
             if not equipments_count:
@@ -39,16 +39,18 @@ if __name__ == "__main__":
                 equipments_count = int(equipments_count)
         except ValueError:
             print("Error: must be an integer! (10 <= number <= 20)")
-        if equipments_count < 10 or equipments_count > 20:
+        if equipments_count < 0 or equipments_count > 20:
             print("Warning: must be a number between 10 and 20")
 
     # Input for how many packets will be sent by equipment
     packets_count = -1
-    while packets_count < 0:
+    while packets_count <= 1:
         try:
             packets_count = int(input("Enter the number of packets each equipment will send: "))
         except ValueError:
-            print("Error: must be an integer! (> 0)")
+            print("Error: must be an integer! (> 1)")
+        if packets_count <= 1:
+            print("Warning: must be a number greater than 1")
     
     # Input for lambda value
     lmbd = -1
@@ -63,31 +65,34 @@ if __name__ == "__main__":
             print("Error: must be a float! (0 < lambda <= 2)")
         if lmbd < 0 or lmbd > 2:
             print("Warning: must be a number between 0 and 2")
-
+    
     # Create the Base Station
-    bs = BaseStation()
-    
-    # Create a list of equipments
-    equipments = []
-    for _ in range(equipments_count):
-        e = Equipment(packets_count)
-        e.set_distribution(get_distrubtion_times(lmbd))
-        equipments.append(e)
-    
-    print(equipments[0])
+    bs = BaseStation(packets_count)
 
-    # Create a list of frames
-    bs.frames_poisson = [Frame(index=i) for i in range(equipments_count)]
-    bs.frames_random = [Frame(index=i) for i in range(equipments_count)]
+    # Simulation run for 100 simulation frame
+    for _ in range(100):
+        # Create a list of equipments
+        equipments = []
+        for _ in range(equipments_count):
+            e = Equipment(packets_count)
+            e.set_distribution(get_distrubtion_times(lmbd))
+            equipments.append(e)
+        
+        # Create a list of frames
+        bs.frames_poisson = [Frame(index=i) for i in range(equipments_count)]
+        bs.frames_random = [Frame(index=i) for i in range(equipments_count)]
 
-    for i, e in enumerate(equipments):
-        e.send_packets(bs.frames_poisson[i], True)
-        e.send_packets(bs.frames_random[i], False)
-    
-    print(bs.frames_poisson[0])
-    print(bs.frames_random[0])
+        for i, e in enumerate(equipments):
+            e.send_packets(bs.frames_poisson[i], True)
+            e.send_packets(bs.frames_random[i], False)
+        
+        x = bs.detect_collisions(True)
+        bs.print_ratios()
 
-    # TODO Collision detection
+        bs.clear()
+
+        input()
+
     # TODO Implementation of UCB1 using MAB
     # TODO Drawing plots of performance
 
