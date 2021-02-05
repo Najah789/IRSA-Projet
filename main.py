@@ -32,7 +32,6 @@ def UCB1(equipments:list, Xj:int, Nj:int, N:int):
         Xj = sum(eq[i].gain_tab) / len(eq[i].gain_tab)
         Nj = 
         ucb = Xj + math.sqrt((2*math.log(N)) / Nj)
-    
 
 
 
