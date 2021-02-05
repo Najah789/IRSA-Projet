@@ -11,8 +11,8 @@ from Types import Frame
 
 import random
 import math
-import time
 
+# Poisson 
 def get_distrubtion_times(lmbd:float):
     times = []
     
@@ -20,12 +20,14 @@ def get_distrubtion_times(lmbd:float):
     for _ in range(packets_count):
         r = random.uniform(0,1)
         t = -math.log(r) / lmbd
-        
         times.append(old_t + t)
         old_t += t
+
     return times
 
 if __name__ == "__main__":
+    random.seed()
+
     # Input for equipment count
     equipments_count = -1
     while equipments_count < 10 or equipments_count > 20:
@@ -42,14 +44,12 @@ if __name__ == "__main__":
 
     # Input for how many packets will be sent by equipment
     packets_count = -1
-    while packets_count <= 1:
+    while packets_count < 0:
         try:
             packets_count = int(input("Enter the number of packets each equipment will send: "))
         except ValueError:
-            print("Error: must be an integer! (> 1)")
-        if packets_count <= 1:
-            print("Warning: must be a number greater than 1")
-    
+            print("Error: must be an integer! (> 0)")
+
     # Input for lambda value
     lmbd = -1
     while lmbd <= 0 or lmbd > 2:
@@ -63,7 +63,7 @@ if __name__ == "__main__":
             print("Error: must be a float! (0 < lambda <= 2)")
         if lmbd < 0 or lmbd > 2:
             print("Warning: must be a number between 0 and 2")
-    
+
     # Create the Base Station
     bs = BaseStation(packets_count * equipments_count)
 
@@ -91,14 +91,18 @@ if __name__ == "__main__":
 
         time.sleep(0.75)
 
+    print(bs.frames_poisson[0])
+    print(bs.frames_random[0])
+
+    # TODO Collision detection
     # TODO Implementation of UCB1 using MAB
     # TODO Drawing plots of performance
 
     ## GENERAL INFORMATIONS
     # the packets arrives following Poisson using parameter LAMBDA
     # the equipment chooses randomly k SLOTs from the 10 SLOTs
-    #   k : random between 1 and 3
-    
+    #   k : random between 2 and 4
+
     ## GUIDELINE
     # 1) equipment sends packets to BS
     # sends multiple copies of it's packet in a frame that has 10 SLOTs
