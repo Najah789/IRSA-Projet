@@ -26,6 +26,13 @@ def get_distrubtion_times(lmbd:float):
 
     return times
 
+# UCB1 
+def UCB1( Xj:int, Nj:int, N:int):
+    ucb = Xj + sqrt((2*math.log(N)) / Nj)
+    
+
+
+
 if __name__ == "__main__":
     random.seed()
 
