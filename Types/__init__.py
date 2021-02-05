@@ -5,6 +5,7 @@ import random, string, math
 from enum import Enum
 
 MAX_NUM_OF_SLOTS = 100
+TESTS_COUNT = 100
 
 class Ack(Enum):
     RECEIVED = 0.9
@@ -171,6 +172,7 @@ class Equipment(object):
     def __init__(self, packets_count=None, dist:list=None):
         self.index = Equipment.COUNT
         self.gain_tab = []
+        self.tests_count = 0
 
         if dist:
             self.distribution_times:list = dist

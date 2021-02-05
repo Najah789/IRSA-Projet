@@ -9,6 +9,8 @@ from Types import BaseStation
 from Types import Equipment
 from Types import Frame
 
+from Types import TESTS_COUNT
+
 import random
 import math
 import time
@@ -27,13 +29,14 @@ def get_distrubtion_times(lmbd:float):
     return times
 
 # UCB1 
-def UCB1(equipments:list, Xj:int, Nj:int, N:int):
-    for eq in range(equipments.count):
-        Xj = sum(eq[i].gain_tab) / len(eq[i].gain_tab)
-        Nj = 
-        ucb = Xj + math.sqrt((2*math.log(N)) / Nj)
-    
-
+def UCB1(equipments:list):
+    overall_number_tests = 1
+    for _ in range(TESTS_COUNT):
+        for eq in equipments:
+            eq.tests_count += 1
+            x = sum(eq.gain_tab) / len(eq.gain_tab)
+            ucb = x + math.sqrt((2*math.log(overall_number_tests)) / eq.tests_count)
+            overall_number_tests += 1
 
 
 if __name__ == "__main__":
