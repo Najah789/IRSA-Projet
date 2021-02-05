@@ -17,8 +17,9 @@ class Packet(object):
     """
     Packet class
     """
-    def __init__(self, value=None) -> None:
+    def __init__(self, value=None, equipment=None) -> None:
         super().__init__()
+        self.equipment = equipment
         
         # Attributing a random caracter as a value for the packet
         self.value = ''.join(random.choice(string.ascii_letters))
@@ -74,6 +75,7 @@ class BaseStation(object):
     def __init__(self, total_packets):
         self.frames_poisson = []
         self.frames_random = []
+        self.equipments = None
         self.__broadcast_frame = Frame(-1)
 
         self.__total_packets = total_packets
@@ -82,11 +84,12 @@ class BaseStation(object):
     def bf(self):
         return self.__broadcast_frame
 
-    def detect_collisions(self, is_poisson:bool=False) -> list:
+    def detect_collisions(self, is_poisson:bool, equipments:list) -> list:
         """
             This function detects collisions and returns a table of boolean
             of the occured collisions
         """
+        self.equipments = equipments
         # detect if there are any collisions in between frames ~ slots
         collision_table = [Ack.COLLISION for _ in range(MAX_NUM_OF_SLOTS)]
         frames = self.frames_poisson.copy()
@@ -122,14 +125,12 @@ class BaseStation(object):
         count = 0
         for f in frames:
             slots = f.slots 
-            if len(slots[index]) >= 1:
-                slot = slots[index]
-                frame = f
+            frame = f
+            slot = slots[index]
+            if len(slot) >= 1:
                 ret = Ack.RECEIVED
                 count += 1
             if count > 1:
-                slot = None
-                frame = None
                 ret = Ack.COLLISION
                 break
 
@@ -154,7 +155,6 @@ class BaseStation(object):
             packets_received += len(temp)
 
         packets_not_received = self.__total_packets - packets_received
-
         packet_loss = packets_not_received / self.__total_packets
         
         print("packet loss: {:0.2f} %".format((packet_loss*100)))
@@ -179,7 +179,7 @@ class Equipment(object):
             self.__normalize_dist()
 
         # Create a list of packets
-        self.packets = [Packet() for _ in range(packets_count)]
+        self.packets = [Packet(equipment=self) for _ in range(packets_count)]
 
         Equipment.COUNT += 1
 
@@ -232,4 +232,4 @@ class Equipment(object):
             self.distribution_times[i] =  math.floor((MAX_NUM_OF_SLOTS-1) * ((v - min_v)/(max_v - min_v)))
 
     def __repr__(self) -> str:
-        return f"Packets\t>\tDitribution Times\n{str(self.packets)}\t>\t{str(self.distribution_times)}\n"
+        return f"Packets\t>\tDitribution Times\t>Gain Tab\n{str(self.packets)}\t>\t{str(self.distribution_times)}\t{str(self.gain_tab)}\n"

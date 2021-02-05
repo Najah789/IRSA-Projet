@@ -84,8 +84,8 @@ if __name__ == "__main__":
     # Create the Base Station
     bs = BaseStation(packets_count * equipments_count)
 
-    # Simulation run for 100 simulation frame
-    for _ in range(100):
+    # Run simulation for 100 'simulation frames'
+    for _ in range(1000):
         # Create a list of equipments
         equipments = []
         for _ in range(equipments_count):
@@ -95,19 +95,22 @@ if __name__ == "__main__":
         
         # Create a list of frames
         bs.frames_poisson = [Frame(index=i) for i in range(equipments_count)]
-        bs.frames_random = [Frame(index=i) for i in range(equipments_count)]
+        # bs.frames_random = [Frame(index=i) for i in range(equipments_count)]
 
         for i, e in enumerate(equipments):
             e.send_packets(bs.frames_poisson[i], True)
-            e.send_packets(bs.frames_random[i], False)
+            # e.send_packets(bs.frames_random[i], False)
         
         # Detection de collisions
-        collision_table = bs.detect_collisions(True)
+        collision_table = bs.detect_collisions(True, equipments)
+        for e in equipments:
+            for ack in collision_table:
+                e.gain_tab.append(ack.value)
 
         bs.print_ratios()
 
         bs.clear()
-        time.sleep(0.75)
+        time.sleep(0.1)
 
     # TODO Implementation of UCB1 using MAB
     # TODO Drawing plots of performance
