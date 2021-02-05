@@ -13,6 +13,7 @@ from Types import Frame
 import random
 import math
 
+# Poisson 
 def get_distrubtion_times(lmbd:float):
     times = []
     
@@ -49,7 +50,7 @@ if __name__ == "__main__":
             packets_count = int(input("Enter the number of packets each equipment will send: "))
         except ValueError:
             print("Error: must be an integer! (> 0)")
-    
+
     # Input for lambda value
     lmbd = -1
     while lmbd <= 0 or lmbd > 2:
@@ -77,13 +78,14 @@ if __name__ == "__main__":
     print(equipments[0])
 
     # Create a list of frames
+    # On crée pour chaque équipement une trame
     bs.frames_poisson = [Frame(index=i) for i in range(equipments_count)]
     bs.frames_random = [Frame(index=i) for i in range(equipments_count)]
 
     for i, e in enumerate(equipments):
         e.send_packets(bs.frames_poisson[i], True)
         e.send_packets(bs.frames_random[i], False)
-    
+
     print(bs.frames_poisson[0])
     print(bs.frames_random[0])
 
@@ -94,8 +96,8 @@ if __name__ == "__main__":
     ## GENERAL INFORMATIONS
     # the packets arrives following Poisson using parameter LAMBDA
     # the equipment chooses randomly k SLOTs from the 10 SLOTs
-    #   k : random between 1 and 3
-    
+    #   k : random between 2 and 4
+
     ## GUIDELINE
     # 1) equipment sends packets to BS
     # sends multiple copies of it's packet in a frame that has 10 SLOTs
