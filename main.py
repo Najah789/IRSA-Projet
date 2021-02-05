@@ -26,10 +26,9 @@ def get_distrubtion_times(lmbd:float):
     return times
 
 if __name__ == "__main__":
-
     # Input for equipment count
     equipments_count = -1
-    while equipments_count < 0 or equipments_count > 20:
+    while equipments_count < 10 or equipments_count > 20:
         try:
             equipments_count = input("Enter how many equipements are there (default = 10): ")
             if not equipments_count:
@@ -38,7 +37,7 @@ if __name__ == "__main__":
                 equipments_count = int(equipments_count)
         except ValueError:
             print("Error: must be an integer! (10 <= number <= 20)")
-        if equipments_count < 0 or equipments_count > 20:
+        if equipments_count < 10 or equipments_count > 20:
             print("Warning: must be a number between 10 and 20")
 
     # Input for how many packets will be sent by equipment

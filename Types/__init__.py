@@ -152,7 +152,8 @@ class BaseStation(object):
         packets_not_received = self.__total_packets - packets_received
 
         packet_loss = packets_not_received / self.__total_packets
-        print(f"packet loss: {packet_loss*100} %")
+        
+        print("packet loss: {:0.2f} %".format((packet_loss*100)))
     
     def clear(self):
         self.__broadcast_frame = Frame(-1)
