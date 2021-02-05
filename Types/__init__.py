@@ -170,6 +170,7 @@ class Equipment(object):
     
     def __init__(self, packets_count=None, dist:list=None):
         self.index = Equipment.COUNT
+        self.gain_tab = []
 
         if dist:
             self.distribution_times:list = dist

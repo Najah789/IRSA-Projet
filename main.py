@@ -27,8 +27,11 @@ def get_distrubtion_times(lmbd:float):
     return times
 
 # UCB1 
-def UCB1( Xj:int, Nj:int, N:int):
-    ucb = Xj + sqrt((2*math.log(N)) / Nj)
+def UCB1(equipments:list, Xj:int, Nj:int, N:int):
+    for eq in range(equipments.count):
+        Xj = sum(eq[i].gain_tab) / len(eq[i].gain_tab)
+        Nj = 
+        ucb = Xj + math.sqrt((2*math.log(N)) / Nj)
     
 
 
