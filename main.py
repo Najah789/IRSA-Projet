@@ -11,6 +11,7 @@ from Types import Frame
 
 import random
 import math
+import time
 
 # Poisson 
 def get_distrubtion_times(lmbd:float):
