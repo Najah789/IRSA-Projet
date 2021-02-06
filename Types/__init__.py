@@ -98,7 +98,7 @@ class Equipment(object):
 
     def __send_packet_rand(self, packet:Packet, frame:Frame, slot_id:int):
         # we choose the number of copies (k)
-        k = random.randint(1, 10)
+        k = random.randint(2, 4)
         for _ in range(k):
             frame.receive_packet(packet, slot_id)
 
@@ -250,4 +250,3 @@ class BaseStation(object):
     def clear(self):
         self.__broadcast_frame = Frame(-1)
         Equipment.COUNT = 0
-        
