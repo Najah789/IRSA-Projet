@@ -90,22 +90,20 @@ class Equipment(object):
     #*******************************************************************************
     def __send_packet_rand_dist(self, frame:Frame, nbr_slot:int):
         # we test for all the possible copies
-        for _ in range(0, nbr_slot):
+        for _ in range(nbr_slot):
             slot_id = random.randint(0, 9)
-            for packet in enumerate(self.packets):
+            for packet in self.packets:
                 # send packet to the slot indexed by 'slot_id'
                 self.__send_packet_rand(packet, frame, slot_id)
 
-    def __send_packet_rand(self, packet:Packet, frame:Frame, slot_id):
+    def __send_packet_rand(self, packet:Packet, frame:Frame, slot_id:int):
         # we choose the number of copies (k)
         k = random.randint(1, 10)
         for _ in range(k):
             frame.receive_packet(packet, slot_id)
 
-    def __rand_dist(self, frame:Frame):
-        for i in range(1, 11):
-            self.__send_packet_rand_dist(frame, i)
-
+    def rand_dist(self, frame:Frame, strategy:int):
+        self.__send_packet_rand_dist(frame, strategy)
     #**********************************************************************************
 
     def set_distribution(self, dist:list):
