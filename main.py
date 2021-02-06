@@ -9,7 +9,7 @@ from Types import BaseStation
 from Types import Equipment
 from Types import Frame
 
-from Types import MAX_NUM_OF_SLOTS
+from Types import TESTS_COUNT, MAX_NUM_OF_SLOTS
 import matplotlib.pyplot as plt
 
 import random
