@@ -107,8 +107,11 @@ if __name__ == "__main__":
         
         bs.set_equipments(equipments)
 
+        best_strategy = None
+        best_ucb = -1
+
         for strategy in range(1, MAX_NUM_OF_SLOTS):
-            print(f"executing strategy {strategy}")
+            # print(f"executing strategy {strategy}")
             
             for e in equipments:
                 e.rand_dist(e.frame, strategy)
@@ -118,17 +121,17 @@ if __name__ == "__main__":
             bs.print_ratios()
 
             ucb = UCB1(equipments)
-            print(ucb)
+            if ucb > best_ucb:
+                best_ucb = ucb
+                best_strategy = strategy
             
-            print()
-            time.sleep(0.3)
+            # time.sleep(0.01)
 
-        # # Sending packets
-        # for e in equipments:
-        #     e.send_packets(e.frame)
+        print(f"Best strategy is the strategy {best_strategy}")
+
         
         bs.clear()
-        # input()
+        time.sleep(0.5)
 
     # TODO Implementation of UCB1 using MAB
     # TODO Drawing plots of performance
