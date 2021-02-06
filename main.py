@@ -32,6 +32,7 @@ def get_distrubtion_times(lmbd:float):
 def UCB1(equipments:list):
     overall_number_tests = 1
     ucb_previous = 0
+    ucb = 0
     for _ in range(TESTS_COUNT):
         for eq in equipments:
             eq.tests_count += 1
@@ -40,6 +41,7 @@ def UCB1(equipments:list):
             ucb = max(ucb, ucb_previous)
             ucb_previous = ucb
             overall_number_tests += 1
+    return ucb
 
 def graph_plot(irsa_tab:list, ucb_tab:list, nbr_eq):
     plt.hist([irsa_tab, ucb_tab], bins = nbr_eq, color = ['yellow', 'blue'],
@@ -94,7 +96,7 @@ if __name__ == "__main__":
     bs = BaseStation(packets_count * equipments_count)
 
     # Run simulation for 100 'simulation frames'
-    for _ in range(TESTS_COUNT):
+    for _ in range(100):
         # Create a list of equipments
         equipments = []
         for i in range(equipments_count):
@@ -104,17 +106,26 @@ if __name__ == "__main__":
         
         bs.set_equipments(equipments)
 
-        # Sending packets
-        for i, e in enumerate(equipments):
-            e.send_packets(e.frame)
+        for strategy in range(11):
+            for e in equipments:
+                e.rand_dist(e.frame, strategy)
+            # Collision detection
+            collision_table = bs.detect_collisions()
+            print(f"strategy {strategy}")
+            bs.print_ratios()
+            time.sleep(0.3)
+
+        # # Sending packets
+        # for e in equipments:
+        #     e.send_packets(e.frame)
         
-        # Collision detection
-        collision_table = bs.detect_collisions()
         
-        bs.print_ratios()
+
+        # ucb = UCB1(equipments)
+        # print(ucb)
 
         bs.clear()
-        time.sleep(0.1)
+        time.sleep(0.5)
         # input()
 
     # TODO Implementation of UCB1 using MAB
