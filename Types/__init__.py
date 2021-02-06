@@ -91,7 +91,7 @@ class Equipment(object):
     def __send_packet_rand_dist(self, frame:Frame, nbr_slot:int):
         # we test for all the possible copies
         for _ in range(nbr_slot):
-            slot_id = random.randint(0, 9)
+            slot_id = random.randint(0, MAX_NUM_OF_SLOTS-1)
             for packet in self.packets:
                 # send packet to the slot indexed by 'slot_id'
                 self.__send_packet_rand(packet, frame, slot_id)
