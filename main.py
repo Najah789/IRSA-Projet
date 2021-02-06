@@ -110,7 +110,7 @@ if __name__ == "__main__":
         best_strategy = None
         best_ucb = -1
 
-        for strategy in range(1, MAX_NUM_OF_SLOTS):
+        for strategy in range(2, 4):
             # print(f"executing strategy {strategy}")
             
             for e in equipments:
@@ -129,7 +129,7 @@ if __name__ == "__main__":
 
         print(f"Best strategy is the strategy {best_strategy}")
 
-        
+
         bs.clear()
         time.sleep(0.5)
 
