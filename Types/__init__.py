@@ -252,4 +252,4 @@ class BaseStation(object):
     def clear(self):
         self.__broadcast_frame = Frame(-1)
         Equipment.COUNT = 0
-
+        

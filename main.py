@@ -8,7 +8,7 @@
 from Types import BaseStation
 from Types import Equipment
 from Types import Frame
-
+import matplotlib.pyplot as plt
 from Types import TESTS_COUNT
 
 import random
@@ -41,6 +41,15 @@ def UCB1(equipments:list):
             ucb_previous = ucb
             overall_number_tests += 1
 
+def graph_plot(irsa_tab:list, ucb_tab:list, nbr_eq):
+    plt.hist([irsa_tab, ucb_tab], bins = nbr_eq, color = ['yellow', 'blue'],
+            edgecolor = 'red', hatch = '/', label = ['IRSA', 'UCB1'],
+            histtype = 'bar')
+    plt.ylabel('gain')
+    plt.xlabel('nombre d équipements')
+    plt.title('Comparaison de l algorithem IRSA et UCB1')
+    plt.legend()
+    plt.show()
 
 if __name__ == "__main__":
     random.seed()
