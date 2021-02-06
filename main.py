@@ -10,6 +10,7 @@ from Types import Equipment
 from Types import Frame
 
 from Types import MAX_NUM_OF_SLOTS
+import matplotlib.pyplot as plt
 
 import random
 import math
@@ -43,6 +44,15 @@ def UCB1(equipments:list):
             overall_number_tests += 1
     return ucb
 
+def graph_plot(irsa_tab:list, ucb_tab:list, nbr_eq):
+    plt.hist([irsa_tab, ucb_tab], bins = nbr_eq, color = ['yellow', 'blue'],
+            edgecolor = 'red', hatch = '/', label = ['IRSA', 'UCB1'],
+            histtype = 'bar')
+    plt.ylabel('gain')
+    plt.xlabel('nombre d équipements')
+    plt.title('Comparaison de l algorithem IRSA et UCB1')
+    plt.legend()
+    plt.show()
 
 if __name__ == "__main__":
     random.seed()
