@@ -116,6 +116,12 @@ if __name__ == "__main__":
             s += avg
         avg_gain_irsa.append(s / len(avg_e))
 
+        gn = max(avg_gain_irsa)
+        for g in range(avg_gain_irsa):
+            if avg_gain_irsa[g] == gn : 
+                stg = strg[g] #strg = tab de strg récuperer 
+                best_strategies_irsa.append(stg) # notre tabl de meilleur strg pr chaque lambda
+
         # Clearing Base Station for UCB Testing
         bs.clear()
 
@@ -134,6 +140,7 @@ if __name__ == "__main__":
             if ucb > best_ucb:
                 best_ucb = ucb
                 best_strategy = strategy
+                print(best_strategy)
         best_strategies_ucb.append(best_strategy)
         
         # Clearing Base Station
