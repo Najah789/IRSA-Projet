@@ -9,7 +9,7 @@ from Types import BaseStation
 from Types import Equipment
 from Types import Frame
 
-from Types import TESTS_COUNT
+from Types import MAX_NUM_OF_SLOTS
 
 import random
 import math
@@ -97,26 +97,27 @@ if __name__ == "__main__":
         
         bs.set_equipments(equipments)
 
-        for strategy in range(11):
+        for strategy in range(1, MAX_NUM_OF_SLOTS):
+            print(f"executing strategy {strategy}")
+            
             for e in equipments:
                 e.rand_dist(e.frame, strategy)
             # Collision detection
             collision_table = bs.detect_collisions()
-            print(f"strategy {strategy}")
+            
             bs.print_ratios()
+
+            ucb = UCB1(equipments)
+            print(ucb)
+
+            print()
             time.sleep(0.3)
 
         # # Sending packets
         # for e in equipments:
         #     e.send_packets(e.frame)
         
-        
-
-        # ucb = UCB1(equipments)
-        # print(ucb)
-
         bs.clear()
-        time.sleep(0.5)
         # input()
 
     # TODO Implementation of UCB1 using MAB
