@@ -52,7 +52,7 @@ def graph_plot(irsa_tab:list, ucb_tab:list, nbr_eq):
     plt.xlabel('nombre d équipements')
     plt.title('Comparaison de l algorithem IRSA et UCB1')
     plt.legend()
-    plt.show()
+    plt.show() 
 
 if __name__ == "__main__":
     random.seed()
@@ -119,7 +119,7 @@ if __name__ == "__main__":
 
             ucb = UCB1(equipments)
             print(ucb)
-
+            
             print()
             time.sleep(0.3)
 
