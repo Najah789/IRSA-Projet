@@ -79,6 +79,8 @@ if __name__ == "__main__":
         except ValueError:
             print("Error: must be an integer! (> 0)")
 
+"""
+
     # Input for lambda value
     lmbd = -1
     while lmbd <= 0 or lmbd > 2:
@@ -92,42 +94,47 @@ if __name__ == "__main__":
             print("Error: must be a float! (0 < lambda <= 2)")
         if lmbd < 0 or lmbd > 2:
             print("Warning: must be a number between 0 and 2")
+"""
+
+    
 
     # Create the Base Station
     bs = BaseStation(packets_count * equipments_count)
 
-    # Run simulation for 100 'simulation frames'
-    for _ in range(100):
-        # Create a list of equipments
-        equipments = []
-        for i in range(equipments_count):
-            e = Equipment(packets_count=packets_count, frame=Frame(index=i))
-            e.set_distribution(get_distrubtion_times(lmbd))
-            equipments.append(e)
-        
-        bs.set_equipments(equipments)
 
-        best_strategy = None
-        best_ucb = -1
-
-        for strategy in range(2, 4):
-            # print(f"executing strategy {strategy}")
+    for lmbd in range(0.1, 4.9, 0.2):
+        # Run simulation for 100 'simulation frames'
+        for _ in range(100):
+            # Create a list of equipments
+            equipments = []
+            for i in range(equipments_count):
+                e = Equipment(packets_count=packets_count, frame=Frame(index=i))
+                e.set_distribution(get_distrubtion_times(lmbd))
+                equipments.append(e)
             
-            for e in equipments:
-                e.rand_dist(e.frame, strategy)
-            # Collision detection
-            collision_table = bs.detect_collisions()
-            
-            bs.print_ratios()
+            bs.set_equipments(equipments)
 
-            ucb = UCB1(equipments)
-            if ucb > best_ucb:
-                best_ucb = ucb
-                best_strategy = strategy
-            
-            # time.sleep(0.01)
+            best_strategy = None
+            best_ucb = -1
 
-        print(f"Best strategy is the strategy {best_strategy}")
+            for strategy in range(2, 4):
+                # print(f"executing strategy {strategy}")
+                
+                for e in equipments:
+                    e.rand_dist(e.frame, strategy)
+                # Collision detection
+                collision_table = bs.detect_collisions()
+                
+                bs.print_ratios()
+
+                ucb = UCB1(equipments)
+                if ucb > best_ucb:
+                    best_ucb = ucb
+                    best_strategy = strategy
+                
+                # time.sleep(0.01)
+
+            print(f"Best strategy is the strategy {best_strategy}")
 
 
         bs.clear()
