@@ -4,7 +4,7 @@ import random, string, math
 
 from enum import Enum
 
-MAX_NUM_OF_SLOTS = 1000
+MAX_NUM_OF_SLOTS = 10
 TESTS_COUNT = 1000
 
 
@@ -110,21 +110,20 @@ class Equipment(object):
         self.distribution_times = dist
         self.__normalize_dist()
 
-    def send_packets(self, frame:Frame):
+    def send_packets(self):
         """
-        This functions sends all packets of self.frame 
-        to the frame passed in the parameter
+        This functions sends all packets to it's frame
         """
         for i, packet in enumerate(self.packets):
             # send packet to the slot indexed by 't' ~ POISSON
             t = self.distribution_times[i]
-            self.__send_packet(packet, frame, t)
+            self.__send_packet(packet, t)
 
-    def __send_packet(self, packet:Packet, frame:Frame, slot_id:int=-1):
+    def __send_packet(self, packet:Packet, slot_id:int=-1):
         # we choose the number of copies (k)
         k = random.randint(2, 4)
         for _ in range(k):
-            frame.receive_packet(packet, slot_id)
+            self.frame.receive_packet(packet, slot_id)
         
     def __normalize_dist(self):
         min_v = min(self.distribution_times)

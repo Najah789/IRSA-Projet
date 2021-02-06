@@ -79,68 +79,66 @@ if __name__ == "__main__":
         except ValueError:
             print("Error: must be an integer! (> 0)")
 
-"""
-
-    # Input for lambda value
-    lmbd = -1
-    while lmbd <= 0 or lmbd > 2:
-        try:
-            lmbd = input("Enter the lambda value (default = 0.5): ")
-            if not lmbd:
-                lmbd = 0.5
-            else:
-                lmbd = float(lmbd)
-        except ValueError:
-            print("Error: must be a float! (0 < lambda <= 2)")
-        if lmbd < 0 or lmbd > 2:
-            print("Warning: must be a number between 0 and 2")
-"""
-
-    
-
     # Create the Base Station
     bs = BaseStation(packets_count * equipments_count)
 
+    avg_gain_irsa = []
+    best_strategies_ucb = []
+    lambdas = [x/10 for x in range(1, 50, 2)]
 
-    for lmbd in range(0.1, 4.9, 0.2):
-        # Run simulation for 100 'simulation frames'
-        for _ in range(100):
-            # Create a list of equipments
-            equipments = []
-            for i in range(equipments_count):
-                e = Equipment(packets_count=packets_count, frame=Frame(index=i))
-                e.set_distribution(get_distrubtion_times(lmbd))
-                equipments.append(e)
+    for lmbd in lambdas:
+        # Create a list of equipments
+        equipments = []
+        for i in range(equipments_count):
+            e = Equipment(packets_count=packets_count, frame=Frame(index=i))
+            e.set_distribution(get_distrubtion_times(lmbd))
+            equipments.append(e)
             
-            bs.set_equipments(equipments)
+        bs.set_equipments(equipments)
 
-            best_strategy = None
-            best_ucb = -1
+        # Testing IRSA for strategy 3
+        for e in equipments:
+            e.send_packets()
 
-            for strategy in range(2, 4):
-                # print(f"executing strategy {strategy}")
-                
-                for e in equipments:
-                    e.rand_dist(e.frame, strategy)
-                # Collision detection
-                collision_table = bs.detect_collisions()
-                
-                bs.print_ratios()
+        # Collision Detection
+        collision_table = bs.detect_collisions()
 
-                ucb = UCB1(equipments)
-                if ucb > best_ucb:
-                    best_ucb = ucb
-                    best_strategy = strategy
-                
-                # time.sleep(0.01)
+        # calculating average rewards
+        avg_e = []
+        for e in equipments:
+            s = 0
+            for gain in e.gain_tab:
+                s += gain
+            avg = s/len(e.gain_tab)
+            avg_e.append(avg)
+        s = 0
+        for avg in avg_e:
+            s += avg
+        avg_gain_irsa.append(s / len(avg_e))
 
-            print(f"Best strategy is the strategy {best_strategy}")
-
-
+        # Clearing Base Station for UCB Testing
         bs.clear()
-        time.sleep(0.5)
 
-    # TODO Implementation of UCB1 using MAB
+        # Testing UCB for all strategies
+        best_strategy = None
+        best_ucb = -1
+        for strategy in range(2, 4):
+            for e in equipments:
+                e.rand_dist(e.frame, strategy)
+
+            # Collision Detection
+            collision_table = bs.detect_collisions()
+
+            # Running UCB1
+            ucb = UCB1(equipments)
+            if ucb > best_ucb:
+                best_ucb = ucb
+                best_strategy = strategy
+        best_strategies_ucb.append(best_strategy)
+        
+        # Clearing Base Station
+        bs.clear()
+
     # TODO Drawing plots of performance
 
     ## GENERAL INFORMATIONS
