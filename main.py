@@ -200,23 +200,8 @@ if __name__ == "__main__":
     graph_plot_2(lambdas, strategies_irsa, best_strategies_ucb, 'IRSA', 'UCB')
     graph_plot_hist(strategies_irsa_gain, best_strategies_ucb_gain, lambdas)
 
-    # TODO Drawing plots of performance
-
-    ## GENERAL INFORMATIONS
-    # the packets arrives following Poisson using parameter LAMBDA
-    # the equipment chooses randomly k SLOTs from the 10 SLOTs
-    #   k : random between 2 and 4
-
-    ## GUIDELINE
-    # 1) equipment sends packets to BS
-    # sends multiple copies of it's packet in a frame that has 10 SLOTs
-    # 2) a collision is when two equipments or more sends their packet to the same SLOT
-    # 3) if a packet didn't collide with another packet
-    # BS eliminates this copie from frame
-    # ...
-
     """ EXAMPLE
-    
+
         S represents a slot
         X represents a frame (trame en français :p)
         C represents a collision
@@ -226,6 +211,6 @@ if __name__ == "__main__":
         |EQUIPMENT 2 |--X--|-----|-----|--X--|-----|-----|-----|-----|--X--|-----| <- Frame 2
         |EQUIPMENT 3 |-----|--X--|-----|-----|--X--|-----|--X--|-----|--X--|-----| <- Frame 3
         |------------|-----------------------------------------------------------|
-        |BROADCAST   |--C--|--X--|--X--|--X--|--C--|-----|--X--|--X--|--C--|--X--| <- Frame of BS ?
+        |BROADCAST   |--C--|--X--|--X--|--X--|--C--|-----|--X--|--X--|--C--|--X--| <- Frame of BS 
         |------------|-----------------------------------------------------------|
     """
