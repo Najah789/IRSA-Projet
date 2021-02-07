@@ -97,15 +97,9 @@ if __name__ == "__main__":
         # Calculating average rewards
         avg_e = []
         for e in equipments:
-            s = 0
-            for gain in e.gain_tab:
-                s += gain
-            avg = s/len(e.gain_tab)
+            avg = sum(e.gain_tab)/len(e.gain_tab)
             avg_e.append(avg)
-        s = 0
-        for avg in avg_e:
-            s += avg
-        avg_gain_irsa.append(s / len(avg_e))
+        avg_gain_irsa.append(sum(avg_e) / len(avg_e))
 
         gn = max(avg_gain_irsa)
         #stock les gains pour chaque stratégie dans strategies_irsa
