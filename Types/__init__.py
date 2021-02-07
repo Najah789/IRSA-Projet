@@ -105,11 +105,7 @@ class Equipment(object):
         self.distribution_times = dist
         self.__normalize_dist()
 
-<<<<<<< HEAD
     def __choose_slots(self, strategy:int) -> list:
-=======
-    def __choose_slots(self) -> tuple:
->>>>>>> 7bc8a4ead49b527fc8888118e1ba2ef250b82d31
         """
         This functions chooses randomly the number of slots
         and the return a list of the chosen slots
