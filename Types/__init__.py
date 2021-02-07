@@ -82,7 +82,11 @@ class Equipment(object):
 
         Equipment.COUNT += 1
 
-    #*******************************************************************************
+    # Initialisation trames (UCB1)
+    def rand_dist(self, strategy:int):
+        self.frame = Frame(index=self.index)
+        self.__send_packet_rand_dist(self.frame, strategy)
+
     def __send_packet_rand_dist(self, frame:Frame, nbr_slot:int):
         # we test for all the possible copies
         for _ in range(nbr_slot):
@@ -97,11 +101,8 @@ class Equipment(object):
         for _ in range(k):
             frame.receive_packet(packet, slot_id)
 
-    def rand_dist(self, strategy:int):
-        self.frame = Frame(index=self.index)
-        self.__send_packet_rand_dist(self.frame, strategy)
-    #**********************************************************************************
 
+    # Initialisation des trames (IRSA)
     def set_distribution(self, dist:list):
         self.distribution_times = dist
         self.__normalize_dist()
@@ -172,7 +173,7 @@ class BaseStation(object):
 
     def set_equipments(self, equipments:list):
         self.equipments = equipments
-
+    
     def detect_collisions(self) -> list:
         """
         This function detects collisions and returns 

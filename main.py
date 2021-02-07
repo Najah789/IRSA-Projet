@@ -48,18 +48,9 @@ def graph_plot(tab1:list, tab2:list):
     plt.grid()
     plt.show()
 
-def graph_plot_hist(tab1:list, tab2:list, lambdas:list):
-    # version 1
-    # plt.bar(lambdas, tab2, label='UCB1', width=0.06)
-    # plt.bar(lambdas, tab1, label='IRSA', width=0.06)
-    
-    # plt.xticks(np.arange(0, 5, 0.2))
-    # plt.ylabel('Gain')
-    # plt.xlabel('Lambda')
-    # plt.title('Comparaison de l algorithem IRSA et UCB1')
-    # plt.legend()
 
-    # version 2
+def graph_plot_hist(tab1:list, tab2:list, lambdas:list):
+
     x = np.arange(25)
     width = 0.4
     fig, ax = plt.subplots()
@@ -75,7 +66,6 @@ def graph_plot_hist(tab1:list, tab2:list, lambdas:list):
     fig.tight_layout()
     
     plt.show()
-
 
 
 if __name__ == "__main__":
