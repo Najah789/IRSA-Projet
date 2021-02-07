@@ -105,21 +105,38 @@ class Equipment(object):
         self.distribution_times = dist
         self.__normalize_dist()
 
-    def send_packets(self):
+    def __choose_slots(self) -> list:
+        """
+        This functions chooses randomly the number of slots
+        and the return a list of the chosen slots
+        """
+        nb_slots = random.randint(2, 4)
+        chosen_slots = []
+        for _ in range(nb_slots):
+            slot = random.randint(0, MAX_NUM_OF_SLOTS-1)
+            while slot in chosen_slots:
+                slot = random.randint(0, MAX_NUM_OF_SLOTS-1)
+            chosen_slots.append(slot)
+        return chosen_slots
+
+    # Poisson 
+    def __get_copies_count(self, lmbd:float) -> int:
+        r = random.uniform(0,1)
+        t = -math.log(r) / lmbd
+        return math.ceil(t)
+
+    def send_packets(self, lmbd:float):
         """
         This functions sends all packets to it's frame
         """
-        # we choose the number of slots
-        nbr_slot = random.randint(2, 4)
-        for _ in range(0, nbr_slot):
-            slot_id = random.randint(0, MAX_NUM_OF_SLOTS-1)
-            for i, packet in enumerate(self.packets):
-                # send packet to the slot indexed by 't' ~ POISSON
-                self.__send_packet(packet, slot_id)
+        for packet in self.packets:
+            slots = self.__choose_slots()
+            for slot in slots:
+                self.__send_packet(packet, slot, lmbd)
 
-    def __send_packet(self, packet:Packet, slot_id:int=-1):
-        # we choose the number of copies (k)
-        k = self.distribution_times[i]
+    def __send_packet(self, packet:Packet, slot_id:int, lmbd:float):
+        # choose the copies count by Poisson
+        k = self.__get_copies_count(lmbd)
         for _ in range(k):
             self.frame.receive_packet(packet, slot_id)
         
