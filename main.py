@@ -128,7 +128,7 @@ if __name__ == "__main__":
 
         # On calcule le gain pour la stratégie choisi par UCB1
         for e in equipments:
-            e.send_packets(lmbd, best_strategy)
+            e.rand_dist(lmbd, best_strategy)
 
         # Collision Detection
         collision_table = bs.detect_collisions()
