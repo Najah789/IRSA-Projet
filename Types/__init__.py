@@ -128,12 +128,9 @@ class Equipment(object):
         """
         This functions sends all packets to it's frame
         """
-        slots_id, nb_slots = self.__choose_slots()
+        slots_id, strategy = self.__choose_slots()
         for packet in self.packets:
-<<<<<<< HEAD
             slots_id, strategy = self.__choose_slots(strategy)
-=======
->>>>>>> 7bc8a4ead49b527fc8888118e1ba2ef250b82d31
             for slot in slots_id:
                 self.__send_packet(packet, slot, lmbd)
         return strategy
