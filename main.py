@@ -9,25 +9,12 @@ from Types import BaseStation
 from Types import Equipment
 from Types import Frame
 
-from Types import TESTS_COUNT, MAX_NUM_OF_SLOTS
+from Types import TESTS_COUNT
 import matplotlib.pyplot as plt
 
 import random
 import math
-import time
 
-# Poisson 
-def get_distrubtion_times(lmbd:float):
-    times = []
-    
-    old_t = 0
-    for _ in range(packets_count):
-        r = random.uniform(0,1)
-        t = -math.log(r) / lmbd
-        times.append(old_t + t)
-        old_t += t
-
-    return times
 
 # UCB1 
 def UCB1(equipments:list):
@@ -84,6 +71,7 @@ if __name__ == "__main__":
 
     avg_gain_irsa = []
     best_strategies_ucb = []
+    best_strategies_irsa = []
     lambdas = [x/10 for x in range(1, 50, 2)]
 
     for lmbd in lambdas:
@@ -91,19 +79,18 @@ if __name__ == "__main__":
         equipments = []
         for i in range(equipments_count):
             e = Equipment(packets_count=packets_count, frame=Frame(index=i))
-            e.set_distribution(get_distrubtion_times(lmbd))
             equipments.append(e)
             
         bs.set_equipments(equipments)
 
         # Testing IRSA for strategy 3
         for e in equipments:
-            e.send_packets()
+            e.send_packets(lmbd)
 
         # Collision Detection
         collision_table = bs.detect_collisions()
 
-        # calculating average rewards
+        # Calculating average rewards
         avg_e = []
         for e in equipments:
             s = 0
