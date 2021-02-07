@@ -18,7 +18,7 @@ import math
 
 
 # UCB1 
-def UCB1(equipments:list):
+def ucb1(equipments:list):
     overall_number_tests = 1
     ucb_previous = 0
     ucb = 0
@@ -32,19 +32,39 @@ def UCB1(equipments:list):
             overall_number_tests += 1
     return ucb
 
-def graph_plot(tab1:list, tab2:list):
-
-    x = np.array(tab1)
+def graph_plot(lambdas:list, tab2:list, l:str):
+    x = np.array(lambdas)
     y = np.array(tab2)
 
     plt.xlim([0, 5])
-    plt.xticks(np.arange(0, 4.9, 0.2))
-    plt.xlabel("Lambda")
-    plt.ylabel("Strategie")
+    plt.xticks(np.arange(0, 5, 0.2))
+    plt.xlabel("Lambdas")
+    plt.ylabel("Stratégies")
 
     plt.yticks([2, 3, 4])
 
-    plt.plot(x, y)
+    plt.plot(x, y, label=l)
+    plt.title(f"Meilleure stratégie pour chaque valeur de λ pour {l}")
+    plt.legend()
+    plt.grid()
+    plt.show()
+
+def graph_plot_2(lambdas:list, tab1:list, tab2:list, l:str, l2:str):
+    x = np.array(lambdas)
+    y = np.array(tab1)
+    y2 = np.array(tab2)
+
+    plt.xlim([0, 5])
+    plt.xticks(np.arange(0, 5, 0.2))
+    plt.xlabel("Lambdas")
+    plt.ylabel("Stratégies")
+
+    plt.yticks([2, 3, 4])
+
+    plt.plot(x, y, label=l)
+    plt.plot(x, y2, label=l2)
+    plt.title(f"Meilleure stratégie pour chaque valeur de λ")
+    plt.legend()
     plt.grid()
     plt.show()
 
@@ -60,6 +80,7 @@ def graph_plot_hist(tab1:list, tab2:list, lambdas:list):
     # plt.legend()
 
     # version 2
+
     x = np.arange(25)
     width = 0.4
     fig, ax = plt.subplots()
@@ -67,7 +88,8 @@ def graph_plot_hist(tab1:list, tab2:list, lambdas:list):
     ax.bar(x + width/2, tab2, width, label='UCB1')
 
     ax.set_ylabel('Gains')
-    ax.set_title('Comparaison de l algorithem IRSA et UCB1')
+    ax.set_xlabel('Lambdas')
+    ax.set_title('Comparaison de l\'algorithme IRSA et UCB1')
     ax.set_xticks(x)
     ax.set_xticklabels(lambdas)
     ax.legend()
@@ -75,7 +97,6 @@ def graph_plot_hist(tab1:list, tab2:list, lambdas:list):
     fig.tight_layout()
     
     plt.show()
-
 
 
 if __name__ == "__main__":
@@ -113,7 +134,6 @@ if __name__ == "__main__":
     strategies_irsa = []
     strategies_irsa_gain = []
     lambdas = [x/10 for x in range(1, 50, 2)]
-    print(lambdas)
 
     # Create a list of equipments
     equipments = []
@@ -158,7 +178,7 @@ if __name__ == "__main__":
             collision_table = bs.detect_collisions()
 
             # Running UCB1
-            ucb = UCB1(equipments)
+            ucb = ucb1(equipments)
             if ucb > best_ucb:
                 best_ucb = ucb
                 best_strategy = strategy
@@ -183,9 +203,9 @@ if __name__ == "__main__":
         # Clearing Base Station
         bs.clear()
 
-    graph_plot(lambdas, strategies_irsa)
-    graph_plot(lambdas, best_strategies_ucb)
-
+    graph_plot(lambdas, strategies_irsa, 'IRSA')
+    graph_plot(lambdas, best_strategies_ucb, 'UCB')
+    graph_plot_2(lambdas, strategies_irsa, best_strategies_ucb, 'IRSA', 'UCB')
     graph_plot_hist(strategies_irsa_gain, best_strategies_ucb_gain, lambdas)
 
     # TODO Drawing plots of performance
