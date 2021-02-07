@@ -11,6 +11,7 @@ from Types import Frame
 
 from Types import TESTS_COUNT
 import matplotlib.pyplot as plt
+import numpy as np
 
 import random
 import math
@@ -31,7 +32,12 @@ def UCB1(equipments:list):
             overall_number_tests += 1
     return ucb
 
-def graph_plot(irsa_tab:list, ucb_tab:list, nbr_eq):
+def graph_plot(tab1:list, tab2:list):
+    x = np.array(tab1)
+    y = np.array(tab2)
+    plt.plot(x, y)
+"""
+    plt.show() # affiche la figure a l'ecran
     plt.hist([irsa_tab, ucb_tab], bins = nbr_eq, color = ['yellow', 'blue'],
             edgecolor = 'red', hatch = '/', label = ['IRSA', 'UCB1'],
             histtype = 'bar')
@@ -40,6 +46,8 @@ def graph_plot(irsa_tab:list, ucb_tab:list, nbr_eq):
     plt.title('Comparaison de l algorithem IRSA et UCB1')
     plt.legend()
     plt.show() 
+    """
+
 
 if __name__ == "__main__":
     random.seed()
@@ -125,6 +133,7 @@ if __name__ == "__main__":
                 best_ucb = ucb
                 best_strategy = strategy
                 print(best_strategy)
+            
 
         # On calcule le gain pour la stratégie choisi par UCB1
         for e in equipments:
@@ -152,6 +161,9 @@ if __name__ == "__main__":
         
         # Clearing Base Station
         bs.clear()
+
+    graph_plot(lambdas, best_strategies_irsa)
+    graph_plot(lambdas, best_strategies_ucb)
 
     # TODO Drawing plots of performance
 
