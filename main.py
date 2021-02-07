@@ -156,7 +156,7 @@ if __name__ == "__main__":
         # Clearing Base Station
         bs.clear()
 
-    graph_plot(lambdas, best_strategies_irsa)
+    graph_plot(lambdas, strategies_irsa)
     graph_plot(lambdas, best_strategies_ucb)
 
     # TODO Drawing plots of performance
