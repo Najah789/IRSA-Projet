@@ -36,17 +36,29 @@ def graph_plot(tab1:list, tab2:list):
 
     x = np.array(tab1)
     y = np.array(tab2)
-    
+
     plt.xlim([0, 5])
     plt.xticks(np.arange(0, 4.9, 0.2))
-    plt.xlabel("lambdas")
-    plt.ylabel("Strategy")
+    plt.xlabel("lambda")
+    plt.ylabel("Strategie")
 
     plt.yticks([2, 3, 4])
 
     plt.plot(x, y)
     plt.grid()
     plt.show()
+
+def graph_plot_hist(tab1:list, tab2:list, lambdas:list):
+
+    plt.hist([tab1, tab2], bins = lambdas, color = ['yellow', 'blue'],
+            edgecolor = 'red', hatch = '/', label = ['IRSA', 'UCB1'],
+            histtype = 'bar')
+    plt.ylabel('gain')
+    plt.xlabel('lambdas')
+    plt.title('Comparaison de l algorithem IRSA et UCB1')
+    plt.legend()
+    plt.show()
+
 
 
 if __name__ == "__main__":
@@ -154,10 +166,10 @@ if __name__ == "__main__":
         # Clearing Base Station
         bs.clear()
 
-    #strategies = [str(x) for x in strategies_irsa]
     graph_plot(lambdas, strategies_irsa)
-    #best_strategies = [str(x) for x in best_strategies_ucb]
     graph_plot(lambdas, best_strategies_ucb)
+
+    graph_plot_hist(strategies_irsa_gain, best_strategies_ucb_gain, lambdas)
 
     # TODO Drawing plots of performance
 
