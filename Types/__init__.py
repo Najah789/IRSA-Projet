@@ -128,7 +128,7 @@ class Equipment(object):
         """
         This functions sends all packets to it's frame
         """
-        slots_id, strategy = self.__choose_slots()
+        slots_id, strategy = self.__choose_slots(strategy)
         for packet in self.packets:
             slots_id, strategy = self.__choose_slots(strategy)
             for slot in slots_id:
