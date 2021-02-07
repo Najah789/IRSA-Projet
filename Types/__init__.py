@@ -117,7 +117,7 @@ class Equipment(object):
             while slot in chosen_slots:
                 slot = random.randint(0, MAX_NUM_OF_SLOTS-1)
             chosen_slots.append(slot)
-        return chosen_slots
+        return chosen_slots, nb_slots
 
     # Poisson 
     def __get_copies_count(self, lmbd:float) -> int:
@@ -130,9 +130,10 @@ class Equipment(object):
         This functions sends all packets to it's frame
         """
         for packet in self.packets:
-            slots = self.__choose_slots()
+            slots, nb_slots = self.__choose_slots()
             for slot in slots:
                 self.__send_packet(packet, slot, lmbd)
+        return nb_slots
 
     def __send_packet(self, packet:Packet, slot_id:int, lmbd:float):
         # choose the copies count by Poisson
