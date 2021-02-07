@@ -74,18 +74,19 @@ if __name__ == "__main__":
     best_strategies_irsa = []
     lambdas = [x/10 for x in range(1, 50, 2)]
 
-    for lmbd in lambdas:
-        # Create a list of equipments
-        equipments = []
-        for i in range(equipments_count):
-            e = Equipment(packets_count=packets_count, frame=Frame(index=i))
-            equipments.append(e)
+    # Create a list of equipments
+    equipments = []
+    for i in range(equipments_count):
+        e = Equipment(packets_count=packets_count, frame=Frame(index=i))
+        equipments.append(e)
             
-        bs.set_equipments(equipments)
+    bs.set_equipments(equipments)
 
+    for lmbd in lambdas:
         # Testing IRSA for strategy 3
         for e in equipments:
-            e.send_packets(lmbd)
+            strategy = random.randint(2, 4)
+            stg = e.send_packets(lmbd, strategy)
 
         # Collision Detection
         collision_table = bs.detect_collisions()

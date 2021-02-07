@@ -105,19 +105,18 @@ class Equipment(object):
         self.distribution_times = dist
         self.__normalize_dist()
 
-    def __choose_slots(self) -> list:
+    def __choose_slots(self, strategy:int) -> list:
         """
         This functions chooses randomly the number of slots
         and the return a list of the chosen slots
         """
-        nb_slots = random.randint(2, 4)
         chosen_id_slots = []
-        for _ in range(nb_slots):
+        for _ in range(strategy):
             slot_id = random.randint(0, MAX_NUM_OF_SLOTS-1)
             while slot_id in chosen_id_slots:
                 slot_id = random.randint(0, MAX_NUM_OF_SLOTS-1)
             chosen_id_slots.append(slot_id)
-        return chosen_id_slots, nb_slots
+        return chosen_id_slots, strategy
 
     # Poisson 
     def __get_copies_count(self, lmbd:float) -> int:
@@ -125,15 +124,15 @@ class Equipment(object):
         t = -math.log(r) / lmbd
         return math.ceil(t)
 
-    def send_packets(self, lmbd:float):
+    def send_packets(self, lmbd:float, strategy:int):
         """
         This functions sends all packets to it's frame
         """
         for packet in self.packets:
-            slots_id, nb_slots = self.__choose_slots()
+            slots_id, strategy = self.__choose_slots(strategy)
             for slot in slots_id:
                 self.__send_packet(packet, slot, lmbd)
-        return nb_slots
+        return strategy
 
     def __send_packet(self, packet:Packet, slot_id:int, lmbd:float):
         # choose the copies count by Poisson
