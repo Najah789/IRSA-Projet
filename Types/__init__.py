@@ -105,7 +105,7 @@ class Equipment(object):
         self.distribution_times = dist
         self.__normalize_dist()
 
-    def __choose_slots(self) -> list:
+    def __choose_slots(self) -> tuple:
         """
         This functions chooses randomly the number of slots
         and the return a list of the chosen slots
@@ -129,8 +129,8 @@ class Equipment(object):
         """
         This functions sends all packets to it's frame
         """
+        slots_id, nb_slots = self.__choose_slots()
         for packet in self.packets:
-            slots_id, nb_slots = self.__choose_slots()
             for slot in slots_id:
                 self.__send_packet(packet, slot, lmbd)
         return nb_slots
