@@ -216,8 +216,7 @@ if __name__ == "__main__":
     # ...
 
     """ EXAMPLE
-        D'aprés les videos en ligne (https://youtu.be/RN4XKqTEjDA)
-
+    
         S represents a slot
         X represents a frame (trame en français :p)
         C represents a collision
