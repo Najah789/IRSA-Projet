@@ -50,7 +50,7 @@ class Frame(object):
 
         Frame.COUNT += 1
     
-    def receive_packet(self, packet:Packet, slot_id:int=-1):
+    def receive_packet(self, packet:Packet, slot_id:int):
         """
         This functions assings a reveived packet to a slot.
         """
@@ -101,12 +101,6 @@ class Equipment(object):
         for _ in range(k):
             frame.receive_packet(packet, slot_id)
 
-
-    # Initialisation des trames (IRSA)
-    def set_distribution(self, dist:list):
-        self.distribution_times = dist
-        self.__normalize_dist()
-
     def __choose_slots(self, strategy:int) -> list:
         """
         This functions chooses randomly the number of slots
@@ -141,13 +135,6 @@ class Equipment(object):
         k = self.__get_copies_count(lmbd)
         for _ in range(k):
             self.frame.receive_packet(packet, slot_id)
-        
-    def __normalize_dist(self):
-        min_v = min(self.distribution_times)
-        max_v = max(self.distribution_times)
-
-        for i, v in enumerate(self.distribution_times):
-            self.distribution_times[i] =  math.floor((MAX_NUM_OF_SLOTS-1) * ((v - min_v)/(max_v - min_v)))
 
     def __repr__(self) -> str:
         return f"Equipment {self.index}\n\
