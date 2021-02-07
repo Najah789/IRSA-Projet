@@ -36,6 +36,7 @@ def graph_plot(tab1:list, tab2:list):
     x = np.array(tab1)
     y = np.array(tab2)
     plt.plot(x, y)
+    plt.show()
 """
     plt.show() # affiche la figure a l'ecran
     plt.hist([irsa_tab, ucb_tab], bins = nbr_eq, color = ['yellow', 'blue'],
@@ -122,7 +123,7 @@ if __name__ == "__main__":
         best_ucb = -1
         for strategy in range(2, 4):
             for e in equipments:
-                e.rand_dist(e.frame, strategy)
+                e.rand_dist(strategy)
 
             # Collision Detection
             collision_table = bs.detect_collisions()
@@ -132,13 +133,10 @@ if __name__ == "__main__":
             if ucb > best_ucb:
                 best_ucb = ucb
                 best_strategy = strategy
-                print(best_strategy)
             
-
-
         # On calcule le gain pour la stratégie choisi par UCB1
         for e in equipments:
-            e.rand_dist(lmbd, best_strategy)
+            e.rand_dist(best_strategy)
 
         # Collision Detection
         collision_table = bs.detect_collisions()

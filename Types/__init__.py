@@ -97,9 +97,9 @@ class Equipment(object):
         for _ in range(k):
             frame.receive_packet(packet, slot_id)
 
-    def rand_dist(self, frame:Frame, strategy:int):
+    def rand_dist(self, strategy:int):
         self.frame = Frame(index=self.index)
-        self.__send_packet_rand_dist( frame, strategy)
+        self.__send_packet_rand_dist(self.frame, strategy)
     #**********************************************************************************
 
     def set_distribution(self, dist:list):
