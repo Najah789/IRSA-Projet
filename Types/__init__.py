@@ -54,13 +54,8 @@ class Frame(object):
         """
         This functions assings a reveived packet to a slot.
         """
-        if slot_id < 0:
-            # choose randomly
-            index = random.randint(0, 9)
-            self.slots[index].append(packet)
-        else:
-            # assign directly
-            self.slots[slot_id].append(packet)
+        # assign directly
+        self.slots[slot_id].append(packet)
 
     def __repr__(self) -> str:
         r = f'Frame {self.index} | \t'
@@ -103,7 +98,7 @@ class Equipment(object):
             frame.receive_packet(packet, slot_id)
 
     def rand_dist(self, frame:Frame, strategy:int):
-        self.__send_packet_rand_dist(frame, strategy)
+        self.__send_packet_rand_dist( frame, strategy)
     #**********************************************************************************
 
     def set_distribution(self, dist:list):
@@ -114,14 +109,17 @@ class Equipment(object):
         """
         This functions sends all packets to it's frame
         """
-        for i, packet in enumerate(self.packets):
-            # send packet to the slot indexed by 't' ~ POISSON
-            t = self.distribution_times[i]
-            self.__send_packet(packet, t)
+        # we choose the number of slots
+        nbr_slot = random.randint(2, 4)
+        for _ in range(0, nbr_slot):
+            slot_id = random.randint(0, MAX_NUM_OF_SLOTS-1)
+            for i, packet in enumerate(self.packets):
+                # send packet to the slot indexed by 't' ~ POISSON
+                self.__send_packet(packet, slot_id)
 
     def __send_packet(self, packet:Packet, slot_id:int=-1):
         # we choose the number of copies (k)
-        k = random.randint(2, 4)
+        k = self.distribution_times[i]
         for _ in range(k):
             self.frame.receive_packet(packet, slot_id)
         
