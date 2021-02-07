@@ -39,7 +39,7 @@ def graph_plot(tab1:list, tab2:list):
 
     plt.xlim([0, 5])
     plt.xticks(np.arange(0, 4.9, 0.2))
-    plt.xlabel("lambda")
+    plt.xlabel("Lambda")
     plt.ylabel("Strategie")
 
     plt.yticks([2, 3, 4])
@@ -49,14 +49,31 @@ def graph_plot(tab1:list, tab2:list):
     plt.show()
 
 def graph_plot_hist(tab1:list, tab2:list, lambdas:list):
+    # version 1
+    # plt.bar(lambdas, tab2, label='UCB1', width=0.06)
+    # plt.bar(lambdas, tab1, label='IRSA', width=0.06)
+    
+    # plt.xticks(np.arange(0, 5, 0.2))
+    # plt.ylabel('Gain')
+    # plt.xlabel('Lambda')
+    # plt.title('Comparaison de l algorithem IRSA et UCB1')
+    # plt.legend()
 
-    plt.hist([tab1, tab2], bins = lambdas, color = ['yellow', 'blue'],
-            edgecolor = 'red', hatch = '/', label = ['IRSA', 'UCB1'],
-            histtype = 'bar')
-    plt.ylabel('gain')
-    plt.xlabel('lambdas')
-    plt.title('Comparaison de l algorithem IRSA et UCB1')
-    plt.legend()
+    # version 2
+    x = np.arange(25)
+    width = 0.4
+    fig, ax = plt.subplots()
+    ax.bar(x - width/2, tab1, width, label='IRSA')
+    ax.bar(x + width/2, tab2, width, label='UCB1')
+
+    ax.set_ylabel('Gains')
+    ax.set_title('Comparaison de l algorithem IRSA et UCB1')
+    ax.set_xticks(x)
+    ax.set_xticklabels(lambdas)
+    ax.legend()
+
+    fig.tight_layout()
+    
     plt.show()
 
 
