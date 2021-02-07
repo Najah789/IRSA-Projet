@@ -70,7 +70,9 @@ if __name__ == "__main__":
     bs = BaseStation(packets_count * equipments_count)
 
     avg_gain_irsa = []
+    avg_gain_ucb =[]
     best_strategies_ucb = []
+    best_strategies_ucb_gain = []
     strategies_irsa = []
     strategies_irsa_gain = []
     lambdas = [x/10 for x in range(1, 50, 2)]
@@ -129,6 +131,29 @@ if __name__ == "__main__":
                 best_ucb = ucb
                 best_strategy = strategy
                 print(best_strategy)
+
+        # On calcule le gain pour la stratégie choisi par UCB1
+        for e in equipments:
+            e.send_packets(lmbd, best_strategy)
+
+        # Collision Detection
+        collision_table = bs.detect_collisions()
+
+        # Calculating average rewards
+        avg_e = []
+        for e in equipments:
+            s = 0
+            for gain in e.gain_tab:
+                s += gain
+            avg = s/len(e.gain_tab)
+            avg_e.append(avg)
+        s = 0
+        for avg in avg_e:
+            s += avg
+        avg_gain_ucb.append(s / len(avg_e))
+
+        gn = max(avg_gain_ucb)     
+        best_strategies_ucb_gain.append(gn)
         best_strategies_ucb.append(best_strategy)
         
         # Clearing Base Station
