@@ -33,13 +33,15 @@ def UCB1(equipments:list):
     return ucb
 
 def graph_plot(tab1:list, tab2:list):
-    print(tab1)
-    print("hehe")
-    print( tab2)    
-    plt.xlim([0, 6])
+
+    plt.xlim([0, 9])
     plt.ylim([2, 4])
+    
     x = np.array(tab1)
     y = np.array(tab2)
+    plt.xlim([0, 5])
+    plt.xticks(np.arange(0, 4.9, 0.2))
+    plt.ylim([1.5, 4.5])
     plt.xlabel("lambdas")
     plt.ylabel("Strategy")
 
