@@ -133,7 +133,6 @@ class Equipment(object):
             slots_id, strategy = self.__choose_slots(strategy)
             for slot in slots_id:
                 self.__send_packet(packet, slot, lmbd)
-        return strategy
 
     def __send_packet(self, packet:Packet, slot_id:int, lmbd:float):
         # choose the copies count by Poisson

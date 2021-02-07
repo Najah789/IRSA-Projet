@@ -71,7 +71,8 @@ if __name__ == "__main__":
 
     avg_gain_irsa = []
     best_strategies_ucb = []
-    best_strategies_irsa = []
+    strategies_irsa = []
+    strategies_irsa_gain = []
     lambdas = [x/10 for x in range(1, 50, 2)]
 
     # Create a list of equipments
@@ -84,9 +85,9 @@ if __name__ == "__main__":
 
     for lmbd in lambdas:
         # Testing IRSA for strategy 3
+        strategy = random.randint(2, 4)
         for e in equipments:
-            strategy = random.randint(2, 4)
-            stg = e.send_packets(lmbd, strategy)
+            e.send_packets(lmbd, strategy)
 
         # Collision Detection
         collision_table = bs.detect_collisions()
@@ -105,10 +106,9 @@ if __name__ == "__main__":
         avg_gain_irsa.append(s / len(avg_e))
 
         gn = max(avg_gain_irsa)
-        for g in range(avg_gain_irsa):
-            if avg_gain_irsa[g] == gn : 
-                stg = strg[g] #strg = tab de strg récuperer 
-                best_strategies_irsa.append(stg) # notre tabl de meilleur strg pr chaque lambda
+        #stock les gains pour chaque stratégie dans strategies_irsa
+        strategies_irsa_gain.append(gn)
+        strategies_irsa.append(strategy)
 
         # Clearing Base Station for UCB Testing
         bs.clear()
