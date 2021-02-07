@@ -35,6 +35,8 @@ def UCB1(equipments:list):
 def graph_plot(tab1:list, tab2:list):
     x = np.array(tab1)
     y = np.array(tab2)
+    plt.xlabel("lambdas")
+    plt.ylabel("blabla")
     plt.plot(x, y)
     plt.show()
 """
@@ -85,6 +87,7 @@ if __name__ == "__main__":
     strategies_irsa = []
     strategies_irsa_gain = []
     lambdas = [x/10 for x in range(1, 50, 2)]
+    print(lambdas)
 
     # Create a list of equipments
     equipments = []
@@ -154,8 +157,10 @@ if __name__ == "__main__":
         # Clearing Base Station
         bs.clear()
 
-    graph_plot(lambdas, strategies_irsa)
-    graph_plot(lambdas, best_strategies_ucb)
+    strategies = [str(x) for x in strategies_irsa]
+    graph_plot(lambdas, strategies)
+    best_strategies = [str(x) for x in best_strategies_ucb]
+    graph_plot(lambdas, best_strategies)
 
     # TODO Drawing plots of performance
 
