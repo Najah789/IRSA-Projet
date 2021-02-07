@@ -98,6 +98,7 @@ class Equipment(object):
             frame.receive_packet(packet, slot_id)
 
     def rand_dist(self, frame:Frame, strategy:int):
+        self.frame = Frame(index=self.index)
         self.__send_packet_rand_dist( frame, strategy)
     #**********************************************************************************
 
@@ -105,7 +106,7 @@ class Equipment(object):
         self.distribution_times = dist
         self.__normalize_dist()
 
-    def __choose_slots(self, strategy:int) -> tuple:
+    def __choose_slots(self, strategy:int) -> list:
         """
         This functions chooses randomly the number of slots
         and the return a list of the chosen slots
@@ -116,7 +117,7 @@ class Equipment(object):
             while slot_id in chosen_id_slots:
                 slot_id = random.randint(0, MAX_NUM_OF_SLOTS-1)
             chosen_id_slots.append(slot_id)
-        return chosen_id_slots, strategy
+        return chosen_id_slots
 
     # Poisson 
     def __get_copies_count(self, lmbd:float) -> int:
@@ -128,9 +129,9 @@ class Equipment(object):
         """
         This functions sends all packets to it's frame
         """
-        slots_id, strategy = self.__choose_slots(strategy)
+        self.frame = Frame(index=self.index)
+        slots_id = self.__choose_slots(strategy)
         for packet in self.packets:
-            slots_id, strategy = self.__choose_slots(strategy)
             for slot in slots_id:
                 self.__send_packet(packet, slot, lmbd)
 

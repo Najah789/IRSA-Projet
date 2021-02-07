@@ -126,6 +126,7 @@ if __name__ == "__main__":
                 best_strategy = strategy
                 print(best_strategy)
 
+
         # On calcule le gain pour la stratégie choisi par UCB1
         for e in equipments:
             e.rand_dist(lmbd, best_strategy)
@@ -136,15 +137,8 @@ if __name__ == "__main__":
         # Calculating average rewards
         avg_e = []
         for e in equipments:
-            s = 0
-            for gain in e.gain_tab:
-                s += gain
-            avg = s/len(e.gain_tab)
-            avg_e.append(avg)
-        s = 0
-        for avg in avg_e:
-            s += avg
-        avg_gain_ucb.append(s / len(avg_e))
+            avg_e.append(sum(e.gain_tab) / len(e.gain_tab))
+        avg_gain_ucb.append(sum(avg_e) / len(avg_e))
 
         gn = max(avg_gain_ucb)     
         best_strategies_ucb_gain.append(gn)
