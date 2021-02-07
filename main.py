@@ -33,12 +33,12 @@ def UCB1(equipments:list):
     return ucb
 
 def graph_plot(tab1:list, tab2:list):
+
     x = np.array(tab1)
     y = np.array(tab2)
-
+    
     plt.xlim([0, 5])
     plt.xticks(np.arange(0, 4.9, 0.2))
-    # plt.ylim([1.5, 4.5])
     plt.xlabel("lambdas")
     plt.ylabel("Strategy")
 
@@ -47,17 +47,6 @@ def graph_plot(tab1:list, tab2:list):
     plt.plot(x, y)
     plt.grid()
     plt.show()
-"""
-    plt.show() # affiche la figure a l'ecran
-    plt.hist([irsa_tab, ucb_tab], bins = nbr_eq, color = ['yellow', 'blue'],
-            edgecolor = 'red', hatch = '/', label = ['IRSA', 'UCB1'],
-            histtype = 'bar')
-    plt.ylabel('gain')
-    plt.xlabel('nombre d équipements')
-    plt.title('Comparaison de l algorithem IRSA et UCB1')
-    plt.legend()
-    plt.show() 
-    """
 
 
 if __name__ == "__main__":
@@ -132,7 +121,7 @@ if __name__ == "__main__":
         # Testing UCB for all strategies
         best_strategy = None
         best_ucb = -1
-        for strategy in range(2, 4):
+        for strategy in range(2, 5):
             for e in equipments:
                 e.rand_dist(strategy)
 
